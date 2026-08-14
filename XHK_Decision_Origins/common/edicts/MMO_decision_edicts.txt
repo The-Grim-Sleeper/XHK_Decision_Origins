@@ -272,6 +272,12 @@ shroud_forged_quest = {
 		add_modifier = {
 			modifier = shroud_forged_country_modifier
 		}
+		add_modifier = {
+			modifier = robotic_species_trait_picks_modifier
+		}
+		add_modifier = {
+			modifier = robotic_species_trait_points_modifier multiplier = 2
+		}
 		
 		give_technology = { message = no tech = tech_mine_zro }
 		add_resource = { sr_zro = 50 }
