@@ -2,6 +2,7 @@
  edict_storm_chasers_quest:0 "More Mutliple Origins - Storm Chasers"
  edict_storm_chasers_quest_desc:0 "Weatherforecast: Rainy with a chance of DOOM!"
  edict_storm_chaser_county_modifier:0 "The differnce between whether we weather the storm or not."
+ edict_arc_welders_quest:0 "More Mutliple Origins - Arc Welders"
  edict_arc_welders_quest_desc:0 "It's a tiny tiny world."
  edict_arc_welders_county_modifier:0 "Moar Moon Melters"
  edict_treasure_hunters_quest:0 "More Mutliple Origins - Treasure Hunters"
@@ -16,6 +17,10 @@
  edict_shroud_forged_quest_desc:0 "A Shroud entity has figured out how to be inappropriate with Robots."
  edict_evolutionary_predators_quest:0 "More Mutliple Origins - Evolutionary Predators"
  edict_evolutionary_predators_quest_desc:0 "Are you gonna eat that?"
+ edict_common_ground_quest:0 "More Mutliple Origins - Common Ground"
+ edict_common_ground_quest_desc:0 "Playing with th best kind of friends. Ones that don't think own their own."
+ edict_hegemony_quest:0 "More Mutliple Origins - Hegemony"
+ edict_hegemony_quest_desc:0 "Playing with th best kind of friends. Ones that don't think own their own. Now with 100% more coercion!"
  
  storm_chaser_county_modifier:0 "Storm Chasers"
  storm_chaser_county_modifier_desc:0 "Cowabunga!"
