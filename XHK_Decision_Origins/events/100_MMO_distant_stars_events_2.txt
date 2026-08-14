@@ -1,0 +1,507 @@
+namespace = distar
+
+
+###### EAT OR BE EATEN ######
+ship_event = {
+	id = distar.1050
+	title = "distar.1050.name"
+	picture = GFX_evt_space_debris
+	show_sound = event_alien_nature
+	location = FROM
+
+	is_triggered_only = yes
+
+	desc = {
+		trigger = { owner = { is_lithoid_empire = no } }
+		text = distar.1050.desc
+	}
+	desc = {
+		trigger = { owner = { is_lithoid_empire = yes } }
+		text = distar.1050.desc_lithoid
+	}
+
+	trigger = {
+		any_playable_country = {
+			is_country_type = default
+			NOR = {
+				is_same_value = root.owner
+				has_country_flag = lost_colony_parent
+				has_country_flag = chosen_empire
+				is_machine_empire = yes
+				is_synthetic_empire = yes
+				owner_species = {
+					NOT = { is_archetype = BIOLOGICAL }
+				}
+			}
+		}
+	}
+	immediate = {
+		owner = {
+			country_event = { id = story.5 days = 30 }
+			set_country_flag = eat_or_be_eaten
+		}
+		random_playable_country = {
+			limit = {
+				NOR = {
+					is_same_value = root.owner
+					has_country_flag = lost_colony_parent
+					has_country_flag = chosen_empire
+					is_machine_empire = yes
+					is_synthetic_empire = yes
+					owner_species = {
+						NOT = { is_archetype = BIOLOGICAL }
+					}
+				}
+			}
+			weights = {
+				base = 1
+				modifier = {
+					factor = 10
+					has_communications = root.owner
+				}
+			}
+			establish_communications = root.owner
+			save_event_target_as = delicious_aliens
+			root.owner = { set_country_flag = establishing_delicious_comms }
+		}
+	}
+
+	option = {
+		name = distar.1050.a
+		hidden_effect = {
+			if = {
+				limit = {
+					root.owner = { has_country_flag = establishing_delicious_comms }
+				}
+				custom_tooltip = distar.1050.a.tooltip
+			}
+		}
+		owner = {
+			add_monthly_resource_mult = {
+				resource = society_research
+				value = @tier2researchreward
+				min = @tier2researchmin
+				max = @tier2researchmax
+			}
+		}
+	}
+
+	option = {
+		exclusive_trigger = { owner = {
+				OR = {
+					has_country_flag = decision_evolutionary_predators
+					has_origin = origin_evolutionary_predators
+				}
+		} }
+		name = distar.1050.b.evopred
+		hidden_effect = {
+			if = {
+				limit = {
+					root.owner = { has_country_flag = establishing_delicious_comms }
+				}
+				custom_tooltip = distar.1050.a.tooltip
+			}
+		}
+		owner = {
+			give_evolutionary_predator_situation_progress_and_dna = { AMOUNT = large }
+			add_monthly_resource_mult = {
+				resource = society_research
+				value = @tier2researchreward
+				min = @tier2researchmin
+				max = @tier2researchmax
+			}
+		}
+	}
+}
+
+
+##### AZIZIANS #####
+ship_event = {
+	id = distar.1080
+	title = "distar.1080.name"
+	desc = {
+		trigger = { owner = { has_technology = tech_cloning } }
+		text = distar.1080.desc.b
+	}
+	desc = {
+		trigger = { NOT = { owner = { has_technology = tech_cloning } } }
+		text = distar.1080.desc.c
+	}
+	picture = GFX_evt_space_debris
+	show_sound = event_mystic_reveal
+	location = FROM
+
+	is_triggered_only = yes
+
+	immediate = {
+		owner = {
+			country_event = { id = story.5 days = 30 }
+		}
+	}
+
+	option = {
+		trigger = {
+			owner = {
+				has_technology = tech_cloning
+			}
+		}
+		name = distar.1080.a
+		enable_special_project = {
+			name = "ICE_ALIEN"
+			location = owner.capital_scope
+			owner = root.owner
+		}
+	}
+	option = {
+		name = distar.1080.b
+		owner = {
+			add_resource = { influence = 50 }
+		}
+	}
+	option = {
+		name = distar.1080.c
+		owner = {
+			add_monthly_resource_mult = {
+				resource = society_research
+				value = @tier1researchreward
+				min = @tier1researchmin
+				max = @tier1researchmax
+			}
+		}
+	}
+	option = {
+		name = distar.1080.d
+		trigger = {
+			owner = {
+				 NOR = {
+					has_technology = tech_cloning
+					has_origin = origin_evolutionary_predators
+					has_country_flag = decision_evolutionary_predators
+				}
+			}
+		}
+		hidden_effect = {
+			owner = {
+				set_country_flag = stored_azizian_dna
+			}
+		}
+	}
+	option = {
+		name = distar.1080.d.evopred
+		trigger = {
+			owner = {
+				NOT = { has_technology = tech_cloning }
+				OR = {
+					has_country_flag = decision_evolutionary_predators
+					has_origin = origin_evolutionary_predators
+				}
+			}
+		}
+		owner = {
+			give_evolutionary_predator_situation_progress_and_dna = { AMOUNT = small TYPE = molluscoid }
+			hidden_effect = {
+				set_country_flag = stored_azizian_dna
+			}
+		}
+	}
+}
+
+country_event = {
+	id = distar.1081
+	title = "distar.1081.name"
+	desc = "distar.1081.desc"
+	picture = GFX_evt_genetic_modification
+	show_sound = event_mystic_reveal
+	location = FROM
+
+	is_triggered_only = yes
+
+	immediate = {
+		random_owned_planet = {
+			limit = {
+				is_colony = yes
+				sapient_pop_amount > 100
+			}
+			weights = {
+				base = 1
+				modifier = {
+					add = 5
+					free_housing > 0
+				}
+				modifier = {
+					add = 10
+					free_housing > 300
+				}
+			}
+			save_event_target_as = target_planet
+		}
+	}
+
+# spawns pops
+	option = {
+		name = distar.1081.a
+		event_target:target_planet = {
+			hidden_effect = {
+				create_species = {
+					name = "NAME_Azizians"
+					class = MOL
+					portrait = mol8
+					traits = {
+						ideal_planet_class = pc_arctic
+						trait = trait_presapient_proles
+					}
+					homeworld = this
+					effect = {
+						set_species_flag = azizans_@root
+						set_global_flag = spawned_azizans_@root
+						save_event_target_as = azizians_species
+					}
+				}
+				while = {
+					count = 4
+					#limit = { free_housing > 0 }
+					create_pop_group = {
+						species = event_target:azizians_species
+					}
+				}
+				set_carrier_flag = azizian_pops_planet
+			}
+			custom_tooltip = distar.1081.a.tooltip
+		}
+	}
+# Gives pets
+	option = {
+		name = distar.1081.b
+		event_target:target_planet = {
+			add_deposit = d_alien_pets_deposit
+			add_deposit = d_alien_pets_deposit
+			hidden_effect = { set_carrier_flag = azizian_pet_planet }
+		}
+	}
+# Adds Azizian army
+	option = {
+		name = distar.1081.c
+		custom_tooltip = distar.1080.c.tooltip
+		event_target:target_planet = {
+			set_carrier_flag = titanic_azizian_can_build
+		}
+		set_country_flag = titanic_azizian_soldiers
+	}
+# Get rid of them
+	option = {
+		name = distar.1081.d
+		trigger = {
+			NOR = {
+				has_country_flag = decision_evolutionary_predators
+				has_origin = origin_evolutionary_predators
+			}
+			is_xenophile = no
+		}
+		add_monthly_resource_mult = {
+			resource = society_research
+			value = @tier1researchreward
+			min = @tier1researchmin
+			max = @tier1researchmax
+		}
+	}
+# Get rid of them
+	option = {
+		name = distar.1081.d.evopred
+		trigger = {
+			OR = {
+				has_country_flag = decision_evolutionary_predators
+				has_origin = origin_evolutionary_predators
+			}
+			is_xenophile = no
+		}
+		give_evolutionary_predator_situation_progress_and_dna = { AMOUNT = medium TYPE = molluscoid }
+		add_monthly_resource_mult = {
+			resource = society_research
+			value = @tier1researchreward
+			min = @tier1researchmin
+			max = @tier1researchmax
+		}
+	}
+}
+
+
+##### LOCUSTS #####
+ship_event = {
+	id = distar.1095
+	title = "distar.1095.name"
+	desc = "distar.1095.desc"
+	picture = GFX_evt_warm_barren
+	show_sound = event_ghost_town
+	location = FROM
+
+	is_triggered_only = yes
+
+	immediate = {
+		owner = { country_event = { id = story.1 days = 30 } }
+		From = {
+			change_pc = pc_barren
+			add_modifier = {
+				modifier = "terraforming_candidate"
+				days = -1
+			}
+		}
+	}
+
+	option = {
+		name = distar.1095.a
+	}
+	option = {
+		name = distar.1095.b.evopred
+		exclusive_trigger = { owner = {
+				OR = {
+					has_country_flag = decision_evolutionary_predators
+					has_origin = origin_evolutionary_predators
+				}
+		} }
+		owner = { give_evolutionary_predator_situation_progress_and_dna = { AMOUNT = medium TYPE = arthropoid }}
+	}
+}
+
+##### PRIMORDIAL SOUP #####
+ship_event = {
+	id = distar.2015
+	title = "distar.2015.name"
+	desc = {
+		text = distar.2015.desc
+		trigger = {
+			owner = {
+				NOT = { has_valid_civic = civic_machine_terminator }
+			}
+		}
+	}
+	desc = {
+		text = distar.2015.desc.terminator
+		trigger = {
+			owner = {
+				has_valid_civic = civic_machine_terminator
+			}
+		}
+	}
+	picture = GFX_evt_microscopic_life
+	show_sound = event_alien_nature
+	location = from
+
+	is_triggered_only = yes
+
+	option = {
+		name = FASCINATING
+		trigger = {
+			owner = {
+				NOR = {
+					has_valid_civic = civic_machine_terminator
+					has_origin = origin_evolutionary_predators
+				}
+			}
+		}
+		from = {
+			add_deposit = d_society_3
+		}
+	}
+	option = {
+		name = distar.2015.A.machine
+		trigger = {
+			owner = {
+				is_machine_empire = yes
+				NOT = { has_civic = civic_machine_servitor }
+			}
+		}
+		owner = {
+			add_monthly_resource_mult = {
+				resource = unity
+				value = @tier3unityreward
+			}
+		}
+	}
+
+	option = {
+		name = distar.2015.b.evopred
+		trigger = {
+			owner = {
+				OR = {
+					has_country_flag = decision_evolutionary_predators
+					has_origin = origin_evolutionary_predators
+				}
+			}
+		}
+		owner = { give_evolutionary_predator_situation_progress_and_dna = { AMOUNT = large } }
+		from = {
+			add_deposit = d_society_5
+		}
+	}
+}
+
+
+country_event = { # More info about the molluscs
+	id = distar.3031
+	title = "distar.3030.name"
+	desc = "distar.3031.desc"
+	picture = GFX_evt_alien_cavemen
+	show_sound = event_scanner
+	location = from
+	trackable = yes
+
+	is_triggered_only = yes
+
+	option = { # Yes. Proceed with the integration.
+		trigger = {		# Prevents Genocidal Empires from integrating molluscs
+			is_homicidal = no
+		}
+
+		name = distar.3031.a
+
+		enable_special_project = {
+			name = "molluscoid_miners_project_2"
+			location = root.owner.capital_scope
+			owner = root.owner
+		}
+	}
+
+	option = { # Yes. Proceed with the integration.
+		trigger = {		# Prevents Genocidal Empires from integrating molluscs
+			OR = {
+				has_country_flag = decision_evolutionary_predators
+				has_origin = origin_evolutionary_predators
+			}
+			values_others = no
+		}
+		name = distar.3031.a.evopre
+		give_evolutionary_predator_situation_progress_and_dna = { AMOUNT = medium TYPE = molluscoid }
+	}
+
+	option = { # Yes, use this knowledge (to further our technology)
+		name = distar.3031.b
+
+		enable_special_project = {
+			name = "molluscoid_miners_project_3"
+			location = root.owner.capital_scope
+			owner = root.owner
+		}
+	}
+
+	option = { # No. Mine their planet.
+		name = distar.3031.c
+		add_monthly_resource_mult = {
+			resource = minerals
+			value = @tier2materialreward
+			min = @tier2materialmin
+			max = @tier2materialmax
+		}
+		IF = {
+			limit = {
+				is_xenophile = yes
+			}
+			add_modifier = {
+				modifier = disregard_for_alien_life
+				days = 360
+			}
+		}
+	}
+}
+
+
+# skipped distar.3043 # shroudwalker wormhole or something

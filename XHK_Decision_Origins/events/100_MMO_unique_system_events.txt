@@ -1,0 +1,104 @@
+
+
+fleet_event = {	# Unique Specimens
+	id = unique.10
+	title = unique.10.title
+	desc = unique.10.desc
+	picture = GFX_evt_clones
+	show_sound = event_dig_site
+	location = from
+
+	archaeology = yes
+
+	is_triggered_only = yes
+
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = {
+		from = { set_site_progress_locked = no }
+	}
+
+	option = {
+		name = {
+			text = unique.10.a
+			trigger = { owner = { is_homicidal = no } }
+		}
+		name = {
+			text = PREY
+			trigger = { owner = { has_civic = civic_hive_devouring_swarm } }
+		}
+		name = {
+			text = SCUM
+			trigger = { owner = { has_civic = civic_fanatic_purifiers } }
+		}
+		name = {
+			text = EXTERMINATE
+			trigger = { owner = { has_civic = civic_machine_terminator } }
+		}
+		trigger = {
+			owner = {
+				NOR = {
+					values_others = yes
+					has_origin = origin_evolutionary_predators
+					has_country_flag = decision_evolutionary_predators
+				}
+			}
+		}
+		owner = {
+			add_monthly_resource_mult = {
+				resource = society_research
+				value = @tier2researchreward
+				min = @tier2researchmin
+				max = @tier2researchmax
+			}
+			add_monthly_resource_mult = {
+				resource = engineering_research
+				value = @tier2researchreward
+				min = @tier2researchmin
+				max = @tier2researchmax
+			}
+		}
+	}
+
+	option = {
+		name = unique.10.b
+		trigger = {
+			owner = {
+				is_xenophobe = no
+				is_homicidal = no
+			}
+		}
+		custom_tooltip = unique.10.b.tt
+		hidden_effect = {
+			from.planet = { save_event_target_as = larion_planet }
+			owner = { country_event = { id = unique.15 } }
+		}
+	}
+
+	option = {
+		name = unique.10.c.evopred
+		trigger = { owner = {
+				OR = {
+					has_country_flag = decision_evolutionary_predators
+					has_origin = origin_evolutionary_predators
+				}
+		} }
+		owner = {
+			give_evolutionary_predator_situation_progress_and_dna = { AMOUNT = medium }
+			add_monthly_resource_mult = {
+				resource = society_research
+				value = @tier2researchreward
+				min = @tier2researchmin
+				max = @tier2researchmax
+			}
+			add_monthly_resource_mult = {
+				resource = engineering_research
+				value = @tier2researchreward
+				min = @tier2researchmin
+				max = @tier2researchmax
+			}
+		}
+	}
+}

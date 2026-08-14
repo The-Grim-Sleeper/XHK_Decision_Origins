@@ -1,0 +1,61 @@
+
+namespace = astral_rift
+
+astral_rift_event = {
+	id = astral_rift.210
+	title = astral_rift.210.name
+	desc = astral_rift.210.desc
+	picture = GFX_evt_astral_rift_ancient_battlegrounds_leviathan
+	show_sound = ap_rift_event_2_bio_cavern
+	difficulty = @astral_rift_easy_plus_difficulty
+	astral_rift = yes
+
+	is_triggered_only = yes
+
+	option = {
+		name = astral_rift.210.a
+		explorer = {
+			add_random_research_option = {
+				add_progress = 0.25
+				category = biology
+				ignore_prereqs = yes
+				fail_effects = {
+					add_monthly_resource_mult = {
+						resource = society_research
+						value = @tier3researchreward
+						min = @tier3researchmin
+						max = @tier3researchmax
+					}
+				}
+			}
+		}
+		set_next_astral_rift_event = { id = astral_rift.215 }
+	}
+
+	option = {
+		exclusive_trigger = { explorer = {
+				OR = {
+					has_country_flag = decision_evolutionary_predators
+					has_origin = origin_evolutionary_predators
+				}
+		} }
+		name = astral_rift.210.b.evopred
+		explorer = {
+			add_random_research_option = {
+				add_progress = 0.25
+				category = biology
+				ignore_prereqs = yes
+				fail_effects = {
+					add_monthly_resource_mult = {
+						resource = society_research
+						value = @tier3researchreward
+						min = @tier3researchmin
+						max = @tier3researchmax
+					}
+				}
+			}
+			give_evolutionary_predator_situation_progress_and_dna = { AMOUNT = small }
+		}
+		set_next_astral_rift_event = { id = astral_rift.215 }
+	}
+}

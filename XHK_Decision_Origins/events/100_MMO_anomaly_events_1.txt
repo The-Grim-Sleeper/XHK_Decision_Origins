@@ -1,0 +1,602 @@
+
+namespace = anomaly
+
+### Asteroid Fauna
+ship_event = {
+	id = anomaly.10
+	title = "anomaly.10.name"
+	desc = "anomaly.10.desc"
+	picture = GFX_evt_mining_station
+	show_sound = event_ship_bridge
+	location = FROM
+
+	is_triggered_only = yes
+
+	immediate = {
+		from = {
+			if = {
+				limit = {
+					NOT = { has_deposit_for = shipclass_research_station }
+				}
+				clear_deposits = yes
+			}
+		}
+		owner = { country_event = { id = story.2 days = 30 } }
+	}
+
+	option = {
+		name = anomaly.10.a
+		hidden_effect = {
+			FROM = {
+				add_modifier = {
+					modifier = "asteroid_life"
+					days = -1
+				}
+			}
+		}
+		FROM = {
+			add_deposit = d_society_3
+		}
+		owner = {
+			if = {
+				limit = {
+					OR = {
+						has_country_flag = decision_evolutionary_predators
+						has_origin = origin_evolutionary_predators
+					}
+				}
+				give_evolutionary_predator_situation_progress_and_dna = { AMOUNT = small TYPE = lithoid }
+			}
+		}
+	}
+
+	option = {
+		exclusive_trigger = {
+			owner = {
+				is_lithoid_empire = yes
+			}
+		}
+		icon = {
+			icon = GFX_lithoid
+			text = IS_LITHOID_EMPIRE_ICON_TIP
+		}
+		name = anomaly.10.b
+		FROM = {
+			add_deposit = d_society_6
+		}
+		owner = {
+			if = {
+				limit = {
+					OR = {
+						has_country_flag = decision_evolutionary_predators
+						has_origin = origin_evolutionary_predators
+					}
+				}
+				give_evolutionary_predator_situation_progress_and_dna = { AMOUNT = small TYPE = lithoid }
+			}
+		}
+	}
+}
+
+### Asteroid Fossils
+ship_event = {
+	id = anomaly.15
+	title = "anomaly.15.name"
+	desc = "anomaly.15.desc"
+	picture = GFX_evt_landing_ship_2
+	show_sound = event_ship_bridge
+	location = FROM
+
+	is_triggered_only = yes
+
+	specimen = asteroid_fossils
+
+	option = {
+		name = FASCINATING
+		owner = {
+			add_monthly_resource_mult = {
+				resource = society_research
+				value = @tier1researchreward
+				min = @tier1researchmin
+				max = @tier1researchmax
+			}
+		}
+	}
+	option = {
+		exclusive_trigger = {
+			OR = {
+				has_country_flag = decision_evolutionary_predators
+				has_origin = origin_evolutionary_predators
+			}
+		}
+		name = anomaly.15.b.evopred
+		owner = { give_evolutionary_predator_situation_progress_and_dna = { AMOUNT = small } }
+	}
+}
+
+### Genetic Library, asteroid only
+ship_event = {
+	id = anomaly.115
+	title = "anomaly.115.name"
+	desc = "anomaly.115.desc"
+	picture = GFX_evt_society_research
+	show_sound = event_laboratory_sound
+	location = FROM
+
+	is_triggered_only = yes
+	auto_opens = yes
+
+	specimen = dna_archive
+
+	immediate = { from = { clear_deposits = yes } }
+
+	option = {
+		name = FASCINATING
+	}
+
+	option = {
+		exclusive_trigger = {
+			OR = {
+				has_country_flag = decision_evolutionary_predators
+				has_origin = origin_evolutionary_predators
+			}
+		}
+		name = anomaly.115.b.evopred
+		owner = { give_evolutionary_predator_situation_progress_and_dna = { AMOUNT = small } }
+	}
+
+	after = {
+		hidden_effect = { owner = { country_event = { id = story.5 days = 30 } } }
+		from = {
+			add_modifier = {
+				modifier = old_genetic_library
+				days = -1
+			}
+			add_deposit = d_engineering_2
+			add_deposit = d_society_2
+		}
+	}
+}
+
+### What Music They Make, HBL_MUSIC_1_CAT
+ship_event = {
+	id = anomaly.145
+	title = "anomaly.145.name"
+	desc = "anomaly.145.desc"
+	inline_script = {
+		script = events/biogenesis_event_art
+		OWNER = owner
+		REGULAR_PICTURE = GFX_evt_landing_ship
+		BIOSHIP_PICTURE = GFX_evt_bioship_landing
+	}
+	show_sound = event_alien_nature
+	location = FROM
+
+	is_triggered_only = yes
+
+	immediate = { owner = { set_country_flag = HBL_MUSIC_1_FLAG } }
+
+	option = {
+		name = FASCINATING
+		owner = {
+			add_monthly_resource_mult = {
+				resource = society_research
+				value = @tier3researchreward
+				min = @tier3researchmin
+				max = @tier3researchmax
+			}
+		}
+		hidden_effect = {
+			owner = { country_event = { id = story.3 days = 30 } }
+		}
+	}
+
+	option = {
+		exclusive_trigger = {
+			owner = {
+				OR = {
+					has_country_flag = decision_evolutionary_predators
+					has_origin = origin_evolutionary_predators
+				}
+			}
+		}
+		name = anomaly.145.b.evopred
+		owner = {
+			give_evolutionary_predator_situation_progress_and_dna = { AMOUNT = medium }
+			owner = {
+				add_monthly_resource_mult = {
+					resource = society_research
+					value = @tier3researchreward
+					min = @tier3researchmin
+					max = @tier3researchmax
+				}
+			}
+			hidden_effect = {
+				owner = { country_event = { id = story.3 days = 30 } }
+			}
+		}
+	}
+
+	after = {
+		owner = {
+			give_specimen = {
+				key = the_planet_orchestra
+				targets = { root.from }
+			}
+		}
+	}
+}
+
+### Social Experiment
+ship_event = {
+	id = anomaly.310
+	title = "anomaly.310.name"
+	desc = "anomaly.310.desc"
+	picture = GFX_evt_gas_giant_station
+	show_sound = event_ship_bridge
+	location = FROM
+
+	is_triggered_only = yes
+
+	immediate = { owner = { country_event = { id = story.5 days = 30 } } }
+
+	option = {
+		name = INTRIGUING
+		owner = {
+			add_monthly_resource_mult = {
+				resource = society_research
+				value = @tier1researchreward
+				min = @tier1researchmin
+				max = @tier1researchmax
+			}
+		}
+	}
+	option = {
+		exclusive_trigger = { owner = {
+					OR = {
+						has_country_flag = decision_evolutionary_predators
+						has_origin = origin_evolutionary_predators
+					}
+		} }
+		name = anomaly.310.b.evopred
+		owner = {
+			give_evolutionary_predator_situation_progress_and_dna = { AMOUNT = small }
+			add_monthly_resource_mult = {
+				resource = society_research
+				value = @tier1researchreward
+				min = @tier1researchmin
+				max = @tier1researchmax
+			}
+		}
+	}
+}
+
+### Mummified Pilot
+ship_event = {
+	id = anomaly.625
+	title = "anomaly.625.name"
+	desc = "anomaly.625.desc"
+	picture = GFX_evt_ship_in_orbit
+	show_sound = event_ship_bridge
+	location = FROM
+
+	is_triggered_only = yes
+
+	immediate = { owner = { country_event = { id = story.5 days = 30 } } }
+
+	option = {
+		name = anomaly.625.a
+		owner = {
+			add_monthly_resource_mult = {
+				resource = society_research
+				value = @tier1researchreward
+				min = @tier1researchmin
+				max = @tier1researchmax
+			}
+		}
+	}
+
+	option = {
+		exclusive_trigger = { owner = {
+					OR = {
+						has_country_flag = decision_evolutionary_predators
+						has_origin = origin_evolutionary_predators
+					}
+		} }
+		name = anomaly.625.b.evopred
+		owner = {
+			give_evolutionary_predator_situation_progress_and_dna = { AMOUNT = small TYPE = mammalian }
+			add_monthly_resource_mult = {
+				resource = society_research
+				value = @tier1researchreward
+				min = @tier1researchmin
+				max = @tier1researchmax
+			}
+		}
+	}
+}
+
+### Ancient Life Pod
+ship_event = {
+	id = anomaly.630
+	title = "anomaly.630.name"
+	desc = "anomaly.630.desc"
+	picture = GFX_evt_scanning_remains
+	show_sound = event_ship_bridge
+	location = FROM
+
+	is_triggered_only = yes
+
+	immediate = { owner = { country_event = { id = story.5 days = 30 } } }
+
+	option = {
+		name = {
+			text = INTERESTING
+			trigger = {
+				owner = { is_homicidal = no }
+			}
+		}
+		name = {
+			text = DISGUSTING
+			trigger = {
+				owner = { is_homicidal = yes }
+			}
+		}
+		owner = {
+			add_monthly_resource_mult = {
+				resource = society_research
+				value = @tier1researchreward
+				min = @tier1researchmin
+				max = @tier1researchmax
+			}
+		}
+	}
+
+	option = {
+		exclusive_trigger = { owner = {
+					OR = {
+						has_country_flag = decision_evolutionary_predators
+						has_origin = origin_evolutionary_predators
+					}
+		} }
+		name = anomaly.625.b.evopred
+		owner = {
+			give_evolutionary_predator_situation_progress_and_dna = { AMOUNT = small TYPE = reptilian }
+			add_monthly_resource_mult = {
+				resource = society_research
+				value = @tier1researchreward
+				min = @tier1researchmin
+				max = @tier1researchmax
+			}
+		}
+	}
+}
+
+### Towed Asteroid
+ship_event = {
+	id = anomaly.660
+	title = "anomaly.660.name"
+	desc = "anomaly.660.desc"
+	inline_script = {
+		script = events/biogenesis_event_art
+		OWNER = owner
+		REGULAR_PICTURE = GFX_evt_ship_in_orbit
+		BIOSHIP_PICTURE = GFX_evt_bio_ships_orbiting
+	}
+	show_sound = event_ship_bridge
+	location = FROM
+
+	is_triggered_only = yes
+
+	immediate = {
+		from = {
+			if = {
+				limit = {
+					NOT = { has_deposit_for = shipclass_research_station }
+				}
+				clear_deposits = yes
+			}
+		}
+		owner = { country_event = { id = story.5 days = 30 } }
+	}
+
+	option = {
+		name = INTERESTING
+		hidden_effect = {
+			FROM = {
+				add_modifier = {
+					modifier = "towed_asteroid"
+					days = -1
+				}
+			}
+		}
+		FROM = {
+			add_deposit = d_engineering_3
+		}
+	}
+	option = {
+		trigger = { owner = {
+					OR = {
+						has_country_flag = decision_evolutionary_predators
+						has_origin = origin_evolutionary_predators
+					}
+		} }
+		name = anomaly.660.b
+		owner = { add_modifier = { modifier = asteroid_thrusters days = -1 } }
+	}
+}
+
+# Limbo project 1 followup - anomaly_events_2
+ship_event = {
+	id = anomaly.186
+	title = "anomaly.186.name"
+	desc = {
+		text = anomaly.186.desc.v1
+		trigger = {
+			hidden:owner = {
+				is_individual_machine = no
+				OR = {
+					has_policy_flag = ai_outlawed
+					is_spiritualist = yes
+					NOT = {
+						has_technology = tech_synthetic_workers
+					}
+				}
+			}
+		}
+	}
+
+	desc = {
+		text = anomaly.186.desc.v3
+		trigger = {
+			hidden:owner = {
+				has_technology = tech_synthetic_workers
+				is_individual_machine = no
+				NOR = {
+					has_policy_flag = ai_outlawed
+					is_spiritualist = yes
+				}
+			}
+		}
+	}
+
+	desc = {
+		text = anomaly.186.desc.v4
+		trigger = {
+			hidden:owner = {
+				is_individual_machine = yes
+			}
+		}
+	}
+
+	picture = GFX_evt_sapient_AI
+	show_sound = event_radio_chatter
+	location = fromfrom
+	is_triggered_only = yes
+	trackable = yes
+
+	option = {
+		name = "anomaly.186.a"
+		hidden_effect = { owner = { country_event = { id = story.5 days = 30 } } }
+		owner = {
+			add_monthly_resource_mult = {
+				resource = engineering_research
+				value = @tier4researchreward
+				min = @tier4researchmin
+				max = @tier4researchmax
+			}
+		}
+	}
+
+	option = {
+		name = "anomaly.186.b"
+		trigger = {
+			owner = {
+				NOR = {
+					has_country_flag = decision_synthetic_fertility
+					has_origin = origin_synthetic_fertility 
+				}
+				is_individual_machine = no
+				OR = {
+					NOT = {
+						has_technology = tech_synthetic_workers
+					}
+					has_policy_flag = ai_outlawed
+					is_spiritualist = yes
+				}
+			}
+		}
+
+		owner = {
+			add_monthly_resource_mult = {
+				resource = engineering_research
+				value = @tier3researchreward
+				min = @tier3researchmin
+				max = @tier3researchmax
+			}
+			give_specimen = {
+				key = alien_brain_scans
+				targets = { root.fromfrom }
+			}
+		}
+		hidden_effect = {
+			fromfrom = { set_carrier_flag = limbo_planet }
+			owner = {
+				set_country_flag = limbo_downloaded
+			}
+		}
+	}
+
+	option = {
+		name = "anomaly.186.c"
+		trigger = {
+			owner = {
+				NOR = {
+					has_country_flag = decision_synthetic_fertility
+					has_origin = origin_synthetic_fertility 
+				}
+				OR = {
+					has_technology = tech_synthetic_workers
+					is_individual_machine = yes
+				}
+				NOT = {
+					has_policy_flag = ai_outlawed
+				}
+				NOT = {
+					is_individual_machine = no
+					is_spiritualist = yes
+				}
+			}
+		}
+
+		allow = {
+			owner = { NOT = { has_policy_flag = ai_outlawed } }
+		}
+
+		owner = {
+			capital_scope = {
+				enable_special_project = {
+					name = "LIMBO_2_PROJECT"
+					location = this
+					owner = root.owner
+				}
+			}
+			give_specimen = {
+				key = alien_brain_scans
+				targets = { root.fromfrom }
+			}
+		}
+	}
+
+	option = {
+		name = "anomaly.186.e"
+		custom_tooltip = anomaly.186.e.tt
+		trigger = {
+			owner = {
+				OR = {
+					has_country_flag = decision_synthetic_fertility
+					has_origin = origin_synthetic_fertility 
+				}
+			}
+		}
+
+		allow = {
+			owner = {
+				has_origin = origin_synthetic_fertility
+			}
+		}
+
+		owner = {
+			hidden_effect = {
+				change_variable = {
+					which = num_dead_identities
+					value = 500
+				}
+			}
+			give_specimen = {
+				key = alien_brain_scans
+				targets = { root.fromfrom }
+			}
+		}
+	}
+}

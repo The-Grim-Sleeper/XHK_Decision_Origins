@@ -1,0 +1,414 @@
+
+namespace = fircon
+
+@PreFTLDiplomacyEventTimer = 1800
+@PreFTLDiplomacyEventTimerLong = 5400
+
+
+first_contact_event = {
+	id = fircon.1212
+	title = "fircon.1212.name"
+	desc = "fircon.1212.desc"
+	picture = GFX_evt_shroudwalker_enclave
+	show_sound = event_mystic_reveal
+	is_triggered_only = yes
+	first_contact = yes
+
+	show_sound = event_alien_nature
+
+	immediate = {
+		set_site_progress_locked = yes
+	}
+
+	option = { # pacific ending
+		name = {
+			trigger = {
+				owner = {
+					is_xenophobe = no
+				}
+			}
+			text = "fircon.1212.a"
+		}
+		name = {
+			trigger = {
+				owner = {
+					is_xenophobe = yes
+				}
+			}
+			text = "fircon.1212.ab"
+		}
+		custom_tooltip = "fircon.1212.a.tooltip"
+		owner = {
+			create_leader = {
+				class = scientist
+				name = "NAME_Guest"
+				species = root.contact_country.species
+				gender = female
+				skill = 5
+				traits = {
+					trait = leader_trait_psionic
+				}
+				event_leader = yes
+				effect = {
+					save_event_target_as = guest_scientist
+				}
+			}
+			hidden_effect = {
+				country_event = { id = fircon.1231 days = 1800 random = 360 } # homesickness (5 years)
+				country_event = { id = fircon.1230 days = 60 random = 30 } # special project
+			}
+		}
+	}
+
+	option = { # lab ending
+		name = fircon.1212.b
+		trigger = {
+			owner = {
+				OR = {
+					is_materialist = yes
+					is_xenophile = no
+					has_valid_civic = civic_technocracy
+				}
+			}
+		}
+		owner = {
+			add_monthly_resource_mult = {
+				resource = society_research
+				value = @tier2researchreward
+				min = @tier2researchmin
+				max = @tier2researchmax
+			}
+		}
+		if = {
+			limit = {
+				owner = {
+					OR = {
+						has_country_flag = decision_evolutionary_predators
+						has_origin = origin_evolutionary_predators
+					}
+				}
+			}
+			owner = { give_evolutionary_predator_situation_progress_and_dna = { AMOUNT = small } }
+		}
+	}
+
+	option = { # sacrifice ending
+		name = fircon.1212.c
+		trigger = {
+			owner = {
+				OR = {
+					is_xenophobe = yes
+					is_militarist = yes
+					is_death_cult_empire = yes
+				}
+			}
+		}
+		owner = {
+			add_monthly_resource_mult = {
+				resource = unity
+				value = @tier2unityreward
+				min = @tier2unitymin
+				max = @tier2unitymax
+			}
+		}
+	}
+
+	after = {
+		set_site_progress_locked = no
+		hidden_effect = { finish_first_contact = yes }
+		owner = {
+			set_country_flag = knows_jaunting_traveler_story
+		}
+	}
+}
+
+
+# 'Famine!'
+country_event = {
+	id = fircon.1261
+	title = "fircon.1261.name"
+	desc = "fircon.1261.desc"
+	picture = GFX_evt_alien_cavemen
+	show_sound = event_pre_ftl_civilization
+	location = event_target:pre_ftl_planet
+
+	is_triggered_only = yes
+
+	trigger = {
+		exists = event_target:pre_ftl_planet
+		exists = event_target:pre_ftl_species
+		exists = event_target:pre_ftl_country
+		NOT = {
+			has_country_flag = fircon_1260_fired
+		}
+	}
+
+	immediate = {
+		set_timed_country_flag = {
+			flag = fircon_1260_fired
+			days = 1800
+		}
+		set_country_flag = society_insights
+		set_predictive_observation_insight = {
+			VALUE = 10
+		}
+		save_event_target_as = observation_post_owner
+	}
+
+	option = {
+		name = "fircon.1261.a"
+		if = {
+			limit = { exists = event_target:nomad_waystation_observer }
+			add_observation_insight_effect = {
+				VALUE = 10
+				OUTPOST = event_target:nomad_waystation_observer
+			}
+		}
+		else = {
+			add_observation_insight_effect = {
+				VALUE = 10
+				OUTPOST = event_target:pre_ftl_planet.observation_outpost
+			}
+		}
+		observation_breach_effect = {
+			RESOLUTION = resolution_pre_ftl_stances_exploitation
+		}
+		add_monthly_resource_mult = {
+			resource = society_research
+			value = @tier1researchreward
+			min = @tier1researchmin
+			max = @tier1researchmax
+		}
+		add_modifier = {
+			modifier = show_some_restraint
+			days = 360
+		}
+		hidden_effect = {
+			from.owner = {
+				random_owned_pop_group = {
+					kill_single_pop = yes
+				}
+				if = {
+					limit = {
+						event_target:pre_ftl_species = {
+							is_lithoid = no
+						}
+					}
+					add_modifier = {
+						modifier = food_crisis
+						days = 360
+					}
+				}
+				else = {
+					add_modifier = {
+						modifier = rock_crisis
+						days = 360
+					}
+				}
+			}
+			event_target:pre_ftl_country = {
+				random_situation = {
+					limit = {
+						is_situation_type = pre_ftl_tech_progress_situation
+					}
+					remove_situation_flag = has_ongoing_observation_event_chain
+				}
+			}
+		}
+	}
+
+	option = {
+		name = "fircon.1261.b"
+		if = {
+			limit = { exists = event_target:nomad_waystation_observer }
+			add_observation_insight_effect = {
+				VALUE = 10
+				OUTPOST = event_target:nomad_waystation_observer
+			}
+		}
+		else = {
+			add_observation_insight_effect = {
+				VALUE = 10
+				OUTPOST = event_target:pre_ftl_planet.observation_outpost
+			}
+		}
+		observation_breach_effect = {
+			RESOLUTION = resolution_pre_ftl_stances_non_interference
+		}
+		hidden_effect = {
+			country_event = { id = fircon.1262 days = 360 }
+			event_target:pre_ftl_country = {
+				random_situation = {
+					limit = {
+						is_situation_type = pre_ftl_tech_progress_situation
+					}
+					remove_situation_flag = has_ongoing_observation_event_chain
+				}
+			}
+		}
+		allow = {
+			owner = {
+				if = {
+					limit = {
+						event_target:pre_ftl_species = {
+							is_lithoid = no
+						}
+					}
+					resource_stockpile_compare = {
+						resource = food value >= 50
+					}
+				}
+				else = {
+					resource_stockpile_compare = {
+						resource = minerals value >= 50
+					}
+				}
+			}
+		}
+		if = {
+			limit = {
+				event_target:pre_ftl_species = {
+					is_lithoid = no
+				}
+			}
+			add_resource = {
+				food = -50
+			}
+		}
+		else = {
+			add_resource = {
+				minerals = -50
+			}
+		}
+	}
+
+	option = {
+		name = "fircon.1261.c"
+		trigger = {
+			OR = {
+				has_civic = civic_hive_devouring_swarm
+				has_origin = origin_necrophage
+				has_country_flag = decision_necrophage
+				has_origin = origin_evolutionary_predators
+				has_country_flag = decision_evolutionary_predators
+			}
+			values_others = no #This check is here because Evolutionary Predators can be xenophilic
+		}
+		from.owner = {
+			random_owned_pop_group = {
+				kill_single_pop = yes
+			}
+		}
+		if = {
+			limit = {
+				event_target:pre_ftl_species = {
+					is_lithoid = no
+				}
+			}
+			add_resource = {
+				food = 100
+			}
+		}
+		else = {
+			add_resource = {
+				minerals = 100
+			}
+		}
+		if = {
+			limit = {
+				OR = {
+					has_country_flag = decision_evolutionary_predators
+					has_origin = origin_evolutionary_predators
+				}
+			}
+			give_evolutionary_predator_situation_progress_and_dna = { AMOUNT = small }
+		}
+		observation_breach_effect = {
+			RESOLUTION = resolution_pre_ftl_stances_non_interference
+		}
+		hidden_effect = {
+			event_target:pre_ftl_country = {
+				random_situation = {
+					limit = {
+						is_situation_type = pre_ftl_tech_progress_situation
+					}
+					remove_situation_flag = has_ongoing_observation_event_chain
+				}
+			}
+		}
+	}
+
+	after = {
+		set_observation_events_unlocked = yes
+	}
+}
+
+
+country_event = {
+	id = fircon.2625
+	title = fircon.2625.name
+	desc = {
+		trigger = {
+			fromfrom.owner = {
+				is_gestalt = no
+			}
+		}
+		text = fircon.2625.desc.regular
+	}
+	desc = {
+		trigger = {
+			fromfrom.owner = {
+				is_gestalt = yes
+			}
+		}
+		text = fircon.2625.desc.hive
+	}
+	picture = GFX_evt_worrying_signal
+	is_triggered_only = yes
+
+	option = { #Keep Them
+		name = fircon.2625.a
+		custom_tooltip = fircon.2625.a.tt
+		hidden_effect = {
+			delete_fleet = fromfrom
+			remove_global_flag = inteplanetary_flight_ongoing
+			fromfrom.owner = {
+				random_situation = {
+					limit = {
+						is_situation_type = pre_ftl_tech_progress_situation
+					}
+					add_situation_progress = -960 #50%
+				}
+			}
+		}
+		if = {
+			limit = {
+				values_others = yes
+			}
+			add_modifier =  {
+				modifier = inadvertent_jailer
+				days = 3600
+			}
+		}
+		if = {
+			limit = {
+				OR = {
+					has_country_flag = decision_evolutionary_predators
+					has_origin = origin_evolutionary_predators
+				}
+			}
+			give_evolutionary_predator_situation_progress_and_dna = { AMOUNT = small }
+		}
+	}
+
+	option = { #Return them to their planet
+		name = fircon.2625.b
+		fromfrom.owner = {
+			add_awareness = 50
+		}
+		hidden_effect = {
+			delete_fleet = fromfrom
+			remove_global_flag = inteplanetary_flight_ongoing
+		}
+	}
+}

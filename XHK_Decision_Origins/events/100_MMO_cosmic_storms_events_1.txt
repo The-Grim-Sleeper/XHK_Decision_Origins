@@ -1,0 +1,299 @@
+
+namespace = cstorms
+
+## Hold the line
+carrier_event = {
+	id =  cstorms.1270
+	hide_window = yes
+	is_triggered_only = yes
+	fire_only_once = yes
+
+	trigger = {
+		solar_system = {
+			exists = owner
+			owner = { is_ai = no }
+
+			NOT = {
+				any_system_planet = {
+					OR = {
+						has_carrier_flag = hold_the_line_habitat
+						has_carrier_flag = habitat
+					}
+				}
+			}
+
+			if = {
+				limit = {
+					owner = {
+						OR = {
+							has_country_flag = decision_payback
+							has_origin = origin_payback
+						}
+					}
+				}
+				NOT = {
+					any_system_planet = {
+						is_homeworld = yes
+					}
+				}
+			}
+		}
+	}
+
+	immediate = {
+		set_carrier_flag = hold_the_line_habitat
+		create_archaeological_site = site_hold_the_line
+		create_ambient_object = {
+			type = unidentified_habitat
+			location = this
+		}
+		last_created_ambient_object = {
+			set_ambient_object_flag = unidentified_habitat
+		}
+	}
+}
+
+#But they are cute
+
+ship_event = {
+	id = cstorms.1500
+	title = cstorms.1500.name
+	desc = cstorms.1500.desc
+	picture = GFX_evt_but_they_are_cute
+
+	is_triggered_only = yes
+
+	option = {
+		name = cstorms.1500.a
+
+		enable_special_project = {
+			name = "project_cosmic_storms_but_they_are_cute"
+			location = from
+			owner = root.owner
+		}
+
+		begin_event_chain = {
+			event_chain = "cs_but_they_are_cute_chain"
+			target = this.owner
+		}
+	}
+
+	option = {
+		name = cstorms.1500.b
+		trigger = { owner = {
+				NOR = {
+					has_country_flag = decision_evolutionary_predators
+					has_origin = origin_evolutionary_predators
+				}
+		} }
+		owner = {
+			add_resource = { food = 50 }
+			add_resource = { unity = 50 }
+
+			add_tech_option_or_research_effect = {
+				TECH = tech_dangerous_wildlife
+				PROGRESS = 0.25
+				CATEGORY = society_research
+			}
+		}
+	}
+
+	option = {
+		name = cstorms.1500.evopred
+		trigger = { owner = {
+				OR = {
+					has_country_flag = decision_evolutionary_predators
+					has_origin = origin_evolutionary_predators
+				}
+		} }
+		owner = {
+			give_evolutionary_predator_situation_progress_and_dna = { AMOUNT = small TYPE = mammalian }
+
+			add_resource = { food = 50 }
+			add_resource = { unity = 50 }
+
+			add_tech_option_or_research_effect = {
+				TECH = tech_dangerous_wildlife
+				PROGRESS = 0.25
+				CATEGORY = society_research
+			}
+		}
+	}
+}
+
+#The end of Gurr
+ship_event = {
+	id = cstorms.1515
+	title = cstorms.1515.name
+	desc = cstorms.1515.desc
+	picture = GFX_evt_but_they_are_cute
+	event_chain = cs_but_they_are_cute_chain
+
+	is_triggered_only = yes
+
+	immediate = {
+		owner = {
+			set_country_flag = killed_the_gurr
+			add_resource = { food = 50 }
+			add_resource = { unity = 50 }
+
+			add_tech_option_or_research_effect = {
+				TECH = tech_dangerous_wildlife
+				PROGRESS = 0.25
+				CATEGORY = society_research
+			}
+		}
+
+		leader = {
+			add_trait = {
+				trait = leader_trait_melancholic
+			}
+		}
+	}
+
+	option = {
+		name = cstorms.1515.a
+		hidden_effect = {
+			ship_event = { id = cstorms.1520 days = 100 }
+		}
+	}
+
+	option = {
+		name = cstorms.1515.evopred
+		exclusive_trigger = { owner = {
+				OR = {
+					has_country_flag = decision_evolutionary_predators
+					has_origin = origin_evolutionary_predators
+				}
+		} }
+		owner = { give_evolutionary_predator_situation_progress_and_dna = { AMOUNT = small TYPE = mammalian } }
+		hidden_effect = {
+			ship_event = { id = cstorms.1520 days = 100 }
+		}
+	}
+}
+
+carrier_event = {
+	id = cstorms.1771
+	title = cstorms.1771.name
+	desc = {
+		trigger = {
+			text = cstorms.1771.desc.common
+			text = newline
+			if = {
+				limit = { owner = { has_civic = civic_hive_devouring_swarm } }
+				text = cstorms.1771.desc.swarm
+			}
+			else = { text = cstorms.1771.desc.default }
+		}
+	}
+	picture = GFX_evt_cosmic_storms_gravity_storm
+	show_sound = event_dangerous_animals
+	is_triggered_only = yes
+	location = this
+
+	trigger = {
+		NOT = { has_carrier_flag = afflicted_by_storm_event }
+		is_colony = yes
+		is_artificial = no
+		solar_system = { is_inside_storm = gravity_storm }
+		exists = owner
+		is_owned_by = from
+		owner = {
+			NOT = { has_country_flag = triggered_flightless_fauna }
+		}
+	}
+
+	immediate = {
+		set_carrier_flag = afflicted_by_storm_event
+		owner = { set_country_flag = triggered_flightless_fauna }
+	}
+
+	option = {
+		name = cstorms.1771.a
+		trigger = {
+			owner = { has_civic = civic_hive_devouring_swarm }
+		}
+		owner = {
+			add_monthly_resource_mult = {
+				resource = food
+				value = @tier3materialreward
+				min = @tier3materialmin
+				max = @tier3materialmax
+			}
+			if = {
+				limit = {
+					owner = {
+						OR = {
+							has_country_flag = decision_evolutionary_predators
+							has_origin = origin_evolutionary_predators
+						}
+					}
+				}
+				give_evolutionary_predator_situation_progress_and_dna = { AMOUNT = medium TYPE = avian }
+			}
+		}
+	}
+
+	option = {
+		name = cstorms.1771.b
+		trigger = {
+			owner = { NOT = { has_civic = civic_hive_devouring_swarm } }
+		}
+		owner = {
+			add_monthly_resource_mult = {
+				resource = society_research
+				value = @tier1researchreward
+				min = @tier1researchmin
+				max = @tier1researchmax
+			}
+		}
+	}
+
+	option = {
+		name = cstorms.1771.c
+		trigger = {
+			owner = {
+				NOR = {
+					has_valid_civic = civic_hive_devouring_swarm
+					has_origin = origin_evolutionary_predators
+					has_country_flag = decision_evolutionary_predators
+				}
+			}
+		}
+		allow = {
+			owner = {
+				resource_stockpile_compare = {
+					resource = minerals
+					value >= 350
+				}
+			}
+		}
+		hidden_effect = {
+			set_carrier_flag = flightless_fauna_saved_by_@owner
+		}
+		owner = {
+			add_resource = { minerals = -350 }
+			add_monthly_resource_mult = {
+				resource = unity
+				value = @tier1unityreward
+				min = @tier1unitymin
+				max = @tier1unitymax
+			}
+		}
+	}
+
+	option = {
+		name = cstorms.1771.evopred
+		trigger = {
+			owner = {
+				NOT = { has_valid_civic = civic_hive_devouring_swarm }
+				OR = {
+					has_country_flag = decision_evolutionary_predators
+					has_origin = origin_evolutionary_predators
+				}
+			}
+		}
+		owner = { give_evolutionary_predator_situation_progress_and_dna = { AMOUNT = medium TYPE = avian } }
+	}
+}

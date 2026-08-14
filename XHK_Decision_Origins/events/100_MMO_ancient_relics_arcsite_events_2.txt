@@ -1,0 +1,1111 @@
+
+namespace = ancrel
+
+
+# Stage 5 - Blade of the Huntress
+fleet_event = {
+	id = ancrel.6070
+	title = "ancrel.6070.name"
+	desc = "ancrel.6070.desc"
+	picture = GFX_evt_analyzing_artifacts
+	show_sound = event_finding_loot
+
+	archaeology = yes
+
+	is_triggered_only = yes
+
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = {
+		from = { set_site_progress_locked = no }
+	}
+
+	option = {
+		name = EXCELLENT
+		owner = { add_relic = r_ancient_sword }
+		large_artifact_reward = yes
+	}
+
+	option = {
+		exclusive_trigger = { owner = {
+				OR = {
+					has_country_flag = decision_evolutionary_predators
+					has_origin = origin_evolutionary_predators
+				}
+		} }
+		name = ancrel.6070.b.evopred
+		owner = {
+			give_evolutionary_predator_situation_progress_and_dna = { AMOUNT = large TYPE = arthropoid }
+			add_relic = r_ancient_sword
+		}
+		large_artifact_reward = yes
+	}
+}
+
+# Stage 6 - The Final Chamber
+fleet_event = {
+	id = ancrel.6125
+	title = "ancrel.6125.name"
+	desc = "ancrel.6125.desc"
+	picture = GFX_evt_excavation_team
+	show_sound = event_bad_omen
+
+	archaeology = yes
+
+	is_triggered_only = yes
+
+	immediate = {
+		from = { set_site_progress_locked = yes }
+	}
+
+	after = {
+		from = { set_site_progress_locked = no }
+	}
+
+	option = {
+		name = INTRIGUING
+		owner = { add_relic = r_severed_head }
+		large_artifact_reward = yes
+		hidden_effect = {
+			owner = {
+				country_event = { id = ancrel.6130 }
+			}
+		}
+	}
+
+	option = {
+		exclusive_trigger = { owner = {
+				OR = {
+					has_country_flag = decision_evolutionary_predators
+					has_origin = origin_evolutionary_predators
+				}
+		} }
+		name = ancrel.6125.desc.b.evopred
+		owner = {
+			give_evolutionary_predator_situation_progress_and_dna = { AMOUNT = large TYPE = humanoid }
+			add_relic = r_severed_head
+		}
+		large_artifact_reward = yes
+		hidden_effect = {
+			owner = {
+				country_event = { id = ancrel.6130 }
+			}
+		}
+	}
+}
+
+# Stage 3 - Alt. 3 - Surface-Burster
+fleet_event = {
+	id = ancrel.9090
+	title = "ancrel.9090.name"
+	desc = "ancrel.9090.desc"
+	picture = GFX_evt_space_monster
+	show_sound = event_dangerous_animals
+
+	archaeology = yes
+	is_triggered_only = yes
+
+	immediate = {
+		fromfrom = { set_site_progress_locked = yes }
+	}
+
+	after = {
+		fromfrom = { set_site_progress_locked = no }
+		owner = {
+			give_specimen = {
+				key = giant_egg_shell
+				targets = { root.from.planet }
+			}
+		}
+	}
+
+	option = {
+		name = INTRIGUING
+		owner = {
+			if = {
+				limit = {
+					has_tech_option = tech_alien_life_studies
+				}
+				add_tech_progress = {
+					tech = tech_alien_life_studies
+					progress = 0.5
+				}
+			}
+			else_if = {
+				limit = {
+					NOT = { has_technology = tech_alien_life_studies }
+					can_research_technology = tech_alien_life_studies
+				}
+				add_research_option = tech_alien_life_studies
+				add_tech_progress = {
+					tech = tech_alien_life_studies
+					progress = 0.1
+				}
+			}
+			else = {
+				add_monthly_resource_mult = {
+					resource = society_research
+					value = @tier4researchreward
+					min = @tier4researchmin
+					max = @tier4researchmax
+				}
+			}
+		}
+	}
+	option = {
+		exclusive_trigger = { owner = {
+				OR = {
+					has_country_flag = decision_evolutionary_predators
+					has_origin = origin_evolutionary_predators
+				}
+		} }
+		name = ancrel.9090.b.evopred
+		owner = {
+			give_evolutionary_predator_situation_progress_and_dna = { AMOUNT = medium }
+			if = {
+				limit = {
+					has_tech_option = tech_alien_life_studies
+				}
+				add_tech_progress = {
+					tech = tech_alien_life_studies
+					progress = 0.5
+				}
+			}
+			else_if = {
+				limit = {
+					NOT = { has_technology = tech_alien_life_studies }
+					can_research_technology = tech_alien_life_studies
+				}
+				add_research_option = tech_alien_life_studies
+				add_tech_progress = {
+					tech = tech_alien_life_studies
+					progress = 0.1
+				}
+			}
+			else = {
+				add_monthly_resource_mult = {
+					resource = society_research
+					value = @tier4researchreward
+					min = @tier4researchmin
+					max = @tier4researchmax
+				}
+			}
+		}
+	}
+}
+
+# Stage 3 - Alt. 3 - Cold and Alone
+fleet_event = {
+	id = ancrel.9235
+	title = "ancrel.9235.name"
+	desc = "ancrel.9235.desc"
+	picture = GFX_evt_cold_barren
+	show_sound = event_whispering
+
+	archaeology = yes
+	is_triggered_only = yes
+
+	immediate = {
+		fromfrom = { set_site_progress_locked = yes }
+	}
+
+	after = {
+		fromfrom = { set_site_progress_locked = no }
+		owner = {
+			if = {
+				limit = {
+					is_machine_empire = yes
+				}
+				if = {
+					limit = {
+						has_tech_option = tech_unity_of_purpose
+					}
+					add_tech_progress = {
+						tech = tech_unity_of_purpose
+						progress = 0.25
+					}
+				}
+				else_if = {
+					limit = {
+						NOT = { has_technology = tech_unity_of_purpose }
+					}
+					add_research_option = tech_unity_of_purpose
+					add_tech_progress = {
+						tech = tech_unity_of_purpose
+						progress = 0.1
+					}
+				}
+				else = {
+					add_monthly_resource_mult = {
+						resource = society_research
+						value = @tier4researchreward
+						min = @tier4researchmin
+						max = @tier4researchmax
+					}
+				}
+			}
+			else_if = {
+				limit = {
+					is_hive_empire = yes
+				}
+				if = {
+					limit = {
+						has_tech_option = tech_unity_of_purpose
+					}
+					add_tech_progress = {
+						tech = tech_unity_of_purpose
+						progress = 0.25
+					}
+				}
+				else_if = {
+					limit = {
+						NOT = { has_technology = tech_unity_of_purpose }
+					}
+					add_research_option = tech_unity_of_purpose
+					add_tech_progress = {
+						tech = tech_unity_of_purpose
+						progress = 0.1
+					}
+				}
+				else = {
+					add_monthly_resource_mult = {
+						resource = society_research
+						value = @tier4researchreward
+						min = @tier4researchmin
+						max = @tier4researchmax
+					}
+				}
+			}
+			else = {
+				if = {
+					limit = {
+						has_tech_option = tech_artificial_moral_codes
+					}
+					add_tech_progress = {
+						tech = tech_artificial_moral_codes
+						progress = 0.25
+					}
+				}
+				else_if = {
+					limit = {
+						NOT = { has_technology = tech_artificial_moral_codes }
+					}
+					add_research_option = tech_artificial_moral_codes
+					add_tech_progress = {
+						tech = tech_artificial_moral_codes
+						progress = 0.1
+					}
+				}
+				else = {
+					add_monthly_resource_mult = {
+						resource = society_research
+						value = @tier4researchreward
+						min = @tier4researchmin
+						max = @tier4researchmax
+					}
+				}
+			}
+		}
+	}
+
+	option = {
+		name = GOODBYE
+	}
+
+	option = {
+		exclusive_trigger = { owner = {
+				OR = {
+					has_country_flag = decision_evolutionary_predators
+					has_origin = origin_evolutionary_predators
+				}
+		} }
+		name = ancrel.9235.b.evopred
+	}
+}
+
+# Stage 3 - Alt. 1 - The Hive Coral
+fleet_event = {
+	id = ancrel.9320
+	title = "ancrel.9320.name"
+	desc = "ancrel.9320.desc"
+	picture = GFX_evt_ocean
+	show_sound = event_whispering
+
+	archaeology = yes
+	is_triggered_only = yes
+
+	immediate = {
+		fromfrom = { set_site_progress_locked = yes }
+	}
+
+	after = {
+		fromfrom = { set_site_progress_locked = no }
+		owner = {
+			if = {
+				limit = {
+					has_tech_option = tech_colonization_2
+				}
+				add_tech_progress = {
+					tech = tech_colonization_2
+					progress = 0.25
+				}
+				add_monthly_resource_mult = {
+					resource = society_research
+					value = @tier3researchreward
+					min = @tier3researchmin
+					max = @tier3researchmax
+				}
+			}
+			else_if = {
+				limit = {
+					NOT = { has_technology = tech_colonization_2 }
+				}
+				add_research_option = tech_colonization_2
+				add_tech_progress = {
+					tech = tech_colonization_2
+					progress = 0.1
+				}
+				add_monthly_resource_mult = {
+					resource = society_research
+					value = @tier3researchreward
+					min = @tier3researchmin
+					max = @tier3researchmax
+				}
+			}
+			else = {
+				add_monthly_resource_mult = {
+					resource = society_research
+					value = @tier4researchreward
+					min = @tier4researchmin
+					max = @tier4researchmax
+				}
+			}
+		}
+	}
+
+	option = {
+		name = INTERESTING
+	}
+
+	option = {
+		exclusive_trigger = { owner = {
+				OR = {
+					has_country_flag = decision_evolutionary_predators
+					has_origin = origin_evolutionary_predators
+				}
+		} }
+		name = ancrel.9320.b.evopred
+	}
+}
+
+# Stage 3 - Alt. 2 - Bio-Savior
+fleet_event = {
+	id = ancrel.9325
+	title = "ancrel.9325.name"
+	desc = "ancrel.9325.desc"
+	picture = GFX_evt_ocean
+	show_sound = event_whispering
+
+	archaeology = yes
+	is_triggered_only = yes
+
+	immediate = {
+		fromfrom = { set_site_progress_locked = yes }
+	}
+
+	after = {
+		fromfrom = { set_site_progress_locked = no }
+		owner = {
+			if = {
+				limit = {
+					has_tech_option = tech_colonization_2
+				}
+				add_tech_progress = {
+					tech = tech_colonization_2
+					progress = 0.25
+				}
+				add_monthly_resource_mult = {
+					resource = engineering_research
+					value = @tier3researchreward
+					min = @tier3researchmin
+					max = @tier3researchmax
+				}
+			}
+			else_if = {
+				limit = {
+					NOT = { has_technology = tech_colonization_2 }
+				}
+				add_research_option = tech_colonization_2
+				add_tech_progress = {
+					tech = tech_colonization_2
+					progress = 0.1
+				}
+				add_monthly_resource_mult = {
+					resource = engineering_research
+					value = @tier3researchreward
+					min = @tier3researchmin
+					max = @tier3researchmax
+				}
+			}
+			else = {
+				add_monthly_resource_mult = {
+					resource = engineering_research
+					value = @tier4researchreward
+					min = @tier4researchmin
+					max = @tier4researchmax
+				}
+			}
+		}
+	}
+
+	option = {
+		name = FASCINATING
+	}
+
+	option = {
+		exclusive_trigger = { owner = {
+				OR = {
+					has_country_flag = decision_evolutionary_predators
+					has_origin = origin_evolutionary_predators
+				}
+		} }
+		name = ancrel.9320.b.evopred
+		owner = {
+			give_evolutionary_predator_situation_progress_and_dna = { AMOUNT = small TYPE = molluscoid }
+		}
+	}
+}
+
+# Stage 3 - Alt. 3 - Welcoming Committee
+fleet_event = {
+	id = ancrel.9330
+	title = "ancrel.9330.name"
+	desc = "ancrel.9330.desc"
+	picture = GFX_evt_ocean
+	show_sound = event_finding_loot
+
+	archaeology = yes
+	is_triggered_only = yes
+
+	immediate = {
+		fromfrom = { set_site_progress_locked = yes }
+	}
+
+	after = {
+		fromfrom = { set_site_progress_locked = no }
+		owner = {
+			if = {
+				limit = {
+					has_tech_option = tech_ecological_adaptation
+				}
+				add_tech_progress = {
+					tech = tech_ecological_adaptation
+					progress = 0.5
+				}
+			}
+			else_if = {
+				limit = {
+					NOT = { has_technology = tech_ecological_adaptation }
+				}
+				add_research_option = tech_ecological_adaptation
+				add_tech_progress = {
+					tech = tech_ecological_adaptation
+					progress = 0.1
+				}
+			}
+			else = {
+				add_monthly_resource_mult = {
+					resource = society_research
+					value = @tier4researchreward
+					min = @tier4researchmin
+					max = @tier4researchmax
+				}
+			}
+		}
+	}
+
+	option = {
+		name = UNFORTUNATE
+	}
+
+	option = {
+		exclusive_trigger = { owner = {
+				OR = {
+					has_country_flag = decision_evolutionary_predators
+					has_origin = origin_evolutionary_predators
+				}
+		} }
+		name = ancrel.9320.b.evopred
+		owner = { give_evolutionary_predator_situation_progress_and_dna = { AMOUNT = small } }
+	}
+}
+
+# Stage 3 - Alt. 1 - Frozen Jelly
+fleet_event = {
+	id = ancrel.9370
+	title = "ancrel.9370.name"
+	desc = "ancrel.9370.desc"
+	picture = GFX_evt_arctic
+	show_sound = event_finding_loot
+
+	archaeology = yes
+	is_triggered_only = yes
+
+	immediate = {
+		fromfrom = { set_site_progress_locked = yes }
+	}
+
+	after = {
+		fromfrom = { set_site_progress_locked = no }
+		owner = {
+			give_specimen = {
+				key = rock_jellies
+				targets = { root.fromfrom.planet }
+			}
+		}
+	}
+
+	option = {
+		name = UNFORTUNATE
+		owner = {
+			add_resource = { exotic_gases = 250 }
+		}
+	}
+
+	option = {
+		exclusive_trigger = { owner = {
+				OR = {
+					has_country_flag = decision_evolutionary_predators
+					has_origin = origin_evolutionary_predators
+				}
+		} }
+		name = ancrel.9370.b.evopred
+		owner = {
+			give_evolutionary_predator_situation_progress_and_dna = { AMOUNT = small TYPE = aquatic }
+			add_resource = { exotic_gases = 250 }
+		}
+	}
+}
+
+# Stage 3 - Alt. 3 - Big Ones Couldn't Cope
+fleet_event = {
+	id = ancrel.9380
+	title = "ancrel.9380.name"
+	desc = "ancrel.9380.desc"
+	picture = GFX_evt_ocean
+	show_sound = event_finding_loot
+
+	archaeology = yes
+	is_triggered_only = yes
+
+	immediate = {
+		fromfrom = { set_site_progress_locked = yes }
+	}
+
+	after = {
+		fromfrom = { set_site_progress_locked = no }
+		owner = {
+			give_specimen = {
+				key = rock_jellies
+				targets = { root.fromfrom.planet }
+			}
+		}
+	}
+
+	option = {
+		name = INTERESTING
+		owner = {
+			add_monthly_resource_mult = {
+				resource = society_research
+				value = @tier3researchreward
+				min = @tier3researchmin
+				max = @tier3researchmax
+			}
+		}
+	}
+
+	option = {
+		exclusive_trigger = { owner = {
+				OR = {
+					has_country_flag = decision_evolutionary_predators
+					has_origin = origin_evolutionary_predators
+				}
+		} }
+		name = ancrel.9370.b.evopred
+		owner = {
+			add_monthly_resource_mult = {
+				resource = society_research
+				value = @tier3researchreward
+				min = @tier3researchmin
+				max = @tier3researchmax
+			}
+		}
+	}
+}
+
+# The Library event 5
+fleet_event = {
+	id = ancrel.12040
+	title = ancrel.12040.name
+	desc = {
+		trigger = {
+			has_leviathans = yes
+			exists = event_target:curator_enclave_country
+			owner = { has_communications = event_target:curator_enclave_country }
+		}
+		text = ancrel.12040.desc.curators
+	}
+	desc = {
+		trigger = {
+			has_leviathans = yes
+			exists = event_target:curator_enclave_country
+			NOT = { owner = { has_communications = event_target:curator_enclave_country } }
+		}
+		text = ancrel.12040.desc.meet_curators
+	}
+	desc = {
+		trigger = {
+			OR = {
+				has_leviathans = no
+				NOT = { exists = event_target:curator_enclave_country }
+			}
+		}
+		text = ancrel.12040.desc.no_curators
+	}
+	picture = GFX_evt_death_from_above
+	show_sound = event_mystic_reveal
+	location = from
+
+	archaeology = yes
+
+	is_triggered_only = yes
+
+	immediate = {
+		from = { set_site_progress_locked = yes }
+		if = {
+			limit = {
+				has_leviathans = yes
+				exists = event_target:curator_enclave_country
+				NOT = { owner = { has_communications = event_target:curator_enclave_country } }
+			}
+			closest_system = {
+				limit = { has_star_flag = guardians_curators_system }
+				save_event_target_as = curator_poi
+			}
+		}
+	}
+
+	after = {
+		from = { set_site_progress_locked = no }
+
+		if = {
+			limit = {
+				has_leviathans = yes
+				exists = event_target:curator_enclave_country
+				NOT = { owner = { has_communications = event_target:curator_enclave_country } }
+			}
+			owner = {
+				begin_event_chain = {
+					event_chain = find_the_curators
+					target = this
+				}
+				hidden_effect = {
+					create_point_of_interest = {
+						id = poi_curator_location
+						name = poi_curator_location
+						desc = poi_curator_location_desc
+						event_chain = find_the_curators
+						location = event_target:curator_poi
+					}
+				}
+			}
+		}
+		owner = {
+			give_specimen = {
+				key = illanii_archives
+				targets = { root.fromfrom.planet }
+			}
+		}
+	}
+
+	option = {
+		name = ancrel.12040.A
+		allow = {
+			owner = { is_pacifist = no }
+		}
+		owner = {
+			add_modifier = {
+				modifier = killer_librarian_organism
+			}
+		}
+		large_artifact_reward = yes
+	}
+
+	option = {
+		trigger = {
+			owner = {
+				OR = {
+					has_country_flag = decision_evolutionary_predators
+					has_origin = origin_evolutionary_predators
+				}
+			}
+		}
+		name = ancrel.12040.c.evopred
+		owner = {
+			add_modifier = {
+				modifier = killer_librarian_organism
+			}
+			give_evolutionary_predator_situation_progress_and_dna = { AMOUNT = large }
+		}
+		large_artifact_reward = yes
+	}
+	option = {
+		name = ancrel.12040.B
+
+		owner = {
+			add_monthly_resource_mult = {
+				resource = society_research
+				value = @tier1researchreward
+				min = @tier1researchmin
+				max = @tier1researchmax
+			}
+		}
+
+		from.planet = {
+			hidden_effect = { clear_deposits = yes }
+			add_deposit = d_society_8
+			add_deposit = d_engineering_8
+			add_deposit = d_physics_8
+		}
+		large_artifact_reward = yes
+	}
+}
+
+# Stage 4
+fleet_event = {
+	id = ancrel.13020
+	title = ancrel.13020.name
+	desc = ancrel.13020.desc
+	picture = GFX_evt_circuitry_modification
+	show_sound = event_dig_site
+	location = from
+
+	archaeology = yes
+
+	is_triggered_only = yes
+
+	immediate = {
+		fromfrom = { set_site_progress_locked = yes }
+	}
+
+	option = {
+		name = ancrel.13020.a
+		medium_artifact_reward = yes
+		owner = {
+			add_modifier = {
+				modifier = polaris_biology_modifier
+			}
+		}
+	}
+
+	option = {
+		exclusive_trigger = { owner = {
+				OR = {
+					has_country_flag = decision_evolutionary_predators
+					has_origin = origin_evolutionary_predators
+				}
+		} }
+		name = ancrel.13020.b.evopred
+		medium_artifact_reward = yes
+		owner = {
+			add_modifier = {
+				modifier = polaris_biology_modifier
+			}
+			give_evolutionary_predator_situation_progress_and_dna = { AMOUNT = medium TYPE = plantoid }
+		}
+	}
+
+	after = {
+		fromfrom = { set_site_progress_locked = no }
+	}
+}
+
+# Stage 6a - Fumongus Forever
+country_event = {
+	id = ancrel.13135
+	title = "ancrel.13135.name"
+	desc = "ancrel.13135.desc"
+	picture = GFX_evt_alien_nature
+	show_sound = event_dig_site
+
+	is_triggered_only = yes
+
+	option = {
+		name = ancrel.13135.a
+		trigger = {
+			NOR = {
+				has_country_flag = decision_evolutionary_predators
+				has_origin = origin_evolutionary_predators
+			}
+		}
+		owner = {
+			add_modifier = {
+				modifier = mycelial_network_modifier
+				days = -1
+			}
+			add_modifier = {
+				modifier = fumongus_authoritarian
+				years = 20
+			}
+		}
+		#flag for anomaly hookup
+		hidden_effect = {
+			owner = {
+				set_global_flag = fumongus_active
+				set_global_flag = fumongus_resolved
+				set_country_flag = fumongus_ours
+			}
+		}
+	}
+
+	option = {
+		name = ancrel.13135.a.evopred
+		trigger = {
+			OR = {
+				has_country_flag = decision_evolutionary_predators
+				has_origin = origin_evolutionary_predators
+			}
+		}
+		owner = {
+			give_evolutionary_predator_situation_progress_and_dna = { AMOUNT = large TYPE = fungoid }
+			add_modifier = {
+				modifier = mycelial_network_modifier
+				days = -1
+			}
+			add_modifier = {
+				modifier = fumongus_authoritarian
+				years = 20
+			}
+		}
+		#flag for anomaly hookup
+		hidden_effect = {
+			owner = {
+				set_global_flag = fumongus_active
+				set_global_flag = fumongus_resolved
+				set_country_flag = fumongus_ours
+			}
+		}
+	}
+
+	option = {
+		name = ancrel.13135.b
+		add_monthly_resource_mult = {
+			resource = unity
+			value = @tier5unityreward
+		}
+		#flag for anomaly hookup
+		owner = {
+			set_global_flag = fumongus_dismantled
+			set_global_flag = fumongus_resolved
+			set_country_flag = fumongus_ours
+		}
+	}
+}
+
+# Stage 6b - Fear the Old Shroom
+country_event = {
+	id = ancrel.13130
+	title = "ancrel.13130.name"
+	desc = "ancrel.13130.desc"
+	picture = GFX_evt_alien_nature
+	show_sound = event_dig_site
+
+	is_triggered_only = yes
+
+	option = {
+		name = ancrel.13130.a
+		trigger = {
+			NOR = {
+				has_country_flag = decision_evolutionary_predators
+				has_origin = origin_evolutionary_predators
+			}
+		}
+		owner = {
+			add_modifier = {
+				modifier = mycelial_network_modifier
+				days = -1
+			}
+			add_modifier = {
+				modifier = fumongus_authoritarian
+				years = 20
+			}
+		}
+		#flag for anomaly hookup
+		owner = {
+			set_global_flag = fumongus_active
+			set_global_flag = fumongus_resolved
+			set_country_flag = fumongus_ours
+		}
+	}
+
+	option = {
+		name = ancrel.13135.a.evopred
+		trigger = {
+			OR = {
+				has_country_flag = decision_evolutionary_predators
+				has_origin = origin_evolutionary_predators
+			}
+		}
+		owner = {
+			give_evolutionary_predator_situation_progress_and_dna = { AMOUNT = large TYPE = fungoid }
+			add_modifier = {
+				modifier = mycelial_network_modifier
+				days = -1
+			}
+			add_modifier = {
+				modifier = fumongus_authoritarian
+				years = 20
+			}
+		}
+		#flag for anomaly hookup
+		owner = {
+			set_global_flag = fumongus_active
+			set_global_flag = fumongus_resolved
+			set_country_flag = fumongus_ours
+		}
+	}
+
+	option = {
+		name = ancrel.13130.b
+			add_monthly_resource_mult = {
+				resource = unity
+				value = @tier3unityreward
+				min = @tier3unitymin
+				max = @tier3unitymax
+			}
+		#flag for anomaly hookup
+		owner = {
+			set_global_flag = fumongus_dismantled
+			set_global_flag = fumongus_resolved
+			set_country_flag = fumongus_ours
+		}
+	}
+}
+
+# Stage 4a: intact core
+fleet_event = {
+	id = ancrel.14510
+	title = "ancrel.14510.name"
+	desc = {
+		trigger = {
+			owner = {
+				NOT = { has_country_flag = encountered_elderly_tiyanki }
+			}
+		}
+		text = "ancrel.14510.desc"
+	}
+	desc = {
+		trigger = {
+			owner = {
+				has_country_flag = encountered_elderly_tiyanki
+			}
+		}
+		text = "ancrel.14510.matriarch.desc"
+	}
+	picture = GFX_evt_ancient_tiyanki
+	show_sound = event_space_whale
+
+	archaeology = yes
+	is_triggered_only = yes
+
+	immediate = {
+		fromfrom = { set_site_progress_locked = yes }
+	}
+
+	after = {
+		fromfrom = { set_site_progress_locked = no }
+	}
+
+	option = { # Dissect
+		name = ancrel.14510.a
+		trigger = {
+			owner = {
+				is_xenophile = no
+				NOR = {
+					has_country_flag = decision_evolutionary_predators
+					has_origin = origin_evolutionary_predators
+				}
+			}
+		}
+		owner = {
+			add_modifier = {
+				modifier = tiyanki_butcher
+				days = -1
+			}
+		}
+	}
+
+	option = { # Study
+		name = ancrel.14510.b
+		owner = {
+			add_monthly_resource_mult = {
+				resource = society_research
+				value = @tier5researchreward
+				min = @tier5researchmin
+				max = @tier5researchmax
+			}
+		}
+	}
+
+	option = { # Leave
+		name = ancrel.14510.c
+		trigger = {
+			owner = {
+				is_spiritualist = yes
+			}
+		}
+		owner = {
+			add_monthly_resource_mult = {
+				resource = unity
+				value = @tier4unityreward
+				min = @tier4unitymin
+				max = @tier4unitymax
+			}
+		}
+	}
+
+	option = { # Sell
+		name = ancrel.14510.d
+		trigger = {
+			owner = {
+				has_country_flag = curator_intro
+			}
+		}
+		owner = {
+			add_resource = { energy = 5000 }
+		}
+	}
+
+	option = { # Evolutionary Predator Interaction
+		name = ancrel.14510.e
+		trigger = {
+			owner = {
+				OR = {
+					has_country_flag = decision_evolutionary_predators
+					has_origin = origin_evolutionary_predators
+				}
+			}
+		}
+		owner = {
+			add_modifier = {
+				modifier = tiyanki_butcher
+				days = -1
+			}
+			give_evolutionary_predator_situation_progress_and_dna = { AMOUNT = large }
+		}
+	}
+}
+
+
