@@ -36,6 +36,74 @@ country_event = {
 	}
 }
 
+# Start Event
+country_event = {
+	id = shroud_forged.10
+	title = shroud_forged.10.title
+	desc = shroud_forged.10.desc
+
+	diplomatic = yes
+	is_triggered_only = yes
+
+	picture_event_data = {
+		portrait = shroud1
+		room = shroud_room
+	}
+
+	trigger = {
+		exists = event_target:shroud_forged_situation
+	}
+
+	immediate = {
+		set_country_flag = has_met_animator_of_clay
+	}
+
+	option = {
+		name = shroud_forged.10.a
+		event_target:shroud_forged_situation = { set_situation_approach = approach_shroud_forged_appease }
+		add_resource = { unity = 100 }
+		hidden_effect = {
+			country_event = { id = shroud_forged.15 }
+		}
+	}
+	option = {
+		name = shroud_forged.10.b
+		event_target:shroud_forged_situation = { set_situation_approach = approach_shroud_forged_suppress }
+		add_resource = { influence = 50 }
+		hidden_effect = {
+			country_event = { id = shroud_forged.20 }
+		}
+	}
+	option = {
+		name = shroud_forged.10.c
+		event_target:shroud_forged_situation = { set_situation_approach = approach_shroud_forged_support }
+		random_owned_ship = {
+			limit = {
+				exists = leader
+				is_ship_class = shipclass_science_ship
+			}
+			leader = {
+				add_trait = { trait = leader_trait_guided }
+				hidden_effect = {
+					root = {
+						random_owned_species = {
+							limit = {
+								has_trait = trait_mechanical
+							}
+							save_event_target_as = shroud_forged_species
+						}
+					}
+					change_species = event_target:shroud_forged_species
+				}
+			}
+		}
+		hidden_effect = {
+			country_event = { id = shroud_forged.25 }
+		}
+	}
+}
+
+
 # Materiality Engine unlocked
 country_event = {
 	id = shroud_forged.30
@@ -1327,10 +1395,10 @@ country_event = {
 	trigger_clear = yes
 
 	trigger = {
-				OR = {
-					has_country_flag = decision_shroud_forged
-					has_origin = origin_shroud_forged
-				}
+		OR = {
+			has_country_flag = decision_shroud_forged
+			has_origin = origin_shroud_forged
+		}
 	}
 
 	option = {

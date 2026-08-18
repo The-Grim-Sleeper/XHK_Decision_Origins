@@ -1,4 +1,4 @@
-situation_decision_shroud_forged = {
+situation_shroud_forged = {
 	picture = GFX_evt_shroud_forged_zrobot
 	complete_icon_frame = GFX_situation_outcome_frame_blue
 	complete_icon = GFX_situation_outcome_unknown
@@ -15,7 +15,7 @@ situation_decision_shroud_forged = {
 		OR = {
 			NOT = { exists = owner }
 			owner = {
-				NOT = {	 has_country_flag = decision_overtuned }
+				NOR = {	 has_origin = origin_shroud_forged has_country_flag = decision_shroud_forged }
 			}
 		}
 	}
