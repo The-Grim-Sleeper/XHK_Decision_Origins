@@ -419,6 +419,33 @@ hegemon_quest = {
 	}
 }
 
+# On the Shoulders of Giants
+shoulders_of_giants_quest = {
+	length = 1
+	icon = "GFX_edict_type_policy"
+	resources = {
+		category = edicts
+	}
+	potential = {
+		AND = {
+			is_ai = no
+			years_passed < 1
+			NOT = {
+				has_shoulders_of_giants_origin = yes
+			}
+			has_federations_dlc = yes
+		}
+	}
+	effect = {
+		set_country_flag = decision_shoulders_of_giants
+		country_event = { id = origin.1199 }
+		country_event = { id = timeline_MMO.26 days = 4}
+	}
+	ai_weight = {
+		weight = 0
+	}
+}
+
 ## Under One Rule
 #legendary_leader_quest = {
 #	length = 1

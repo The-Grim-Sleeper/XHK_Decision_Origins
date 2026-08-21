@@ -127,3 +127,19 @@ country_event = {
 		}
 	}
 }
+
+country_event = {
+	id = timeline_MMO.26
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		add_timeline_event = {
+			type = timeline_origin
+			override_tooltip = "origin_shoulders_of_giants_desc"
+			override_text = { "text:origin_shoulders_of_giants" }
+			override_texture = { "background:GFX_origin_shoulders" }
+			override_id = timeline_origin_shoulders_of_giants
+		}
+	}
+}
