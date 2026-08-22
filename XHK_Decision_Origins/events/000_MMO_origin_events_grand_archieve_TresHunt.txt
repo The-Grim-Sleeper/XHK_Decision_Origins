@@ -667,7 +667,7 @@ country_event = {
 				limit = {
 					has_carrier_flag = planet_defended_forbid_colonization
 				}
-				remove_planet_flag = planet_defended_forbid_colonization
+				remove_carrier_flag = planet_defended_forbid_colonization
 			}
 		}
 	}
@@ -833,7 +833,7 @@ country_event = {
 		}
 		last_increased_tech = tech_galactic_archivism
 		has_modifier = exhibition_enhancement_modifier
-		NOT = { has_megastructure = grand_archive_0 }
+		has_grand_archive = no
 	}
 
 	immediate = {
@@ -863,13 +863,17 @@ country_event = {
 
 	trigger = {
 		has_grand_archive_dlc = yes
-		FROM = { is_megastructure_type = grand_archive_0 }
+		NOT = { has_country_flag = grand_archive_opening_event_fired }
 		OR = {
 			has_country_flag = decision_treasure_hunters
 			has_origin = origin_treasure_hunters
 			is_beastmasters_empire = yes
 			is_galactic_curators_empire = yes
 		}
+	}
+
+	immediate = {
+		set_country_flag = grand_archive_opening_event_fired
 	}
 
 	option = {
@@ -938,20 +942,8 @@ country_event = {
 
 	option = {
 		name = grand_archive.8100.a
-		if = {
-			limit = {
-				is_pacifist = no
-			}
-			enable_special_project = {
-				name = "BLACK_NEEDLE_BASE_BOMBARD"
-				location = from
-				owner = root
-			}
-			enable_special_project = {
-				name = "BLACK_NEEDLE_BASE_DEPLOY_ARMIES"
-				location = from
-				owner = root
-			}
+		exclusive_trigger = {
+			is_pacifist = yes
 		}
 		enable_special_project = {
 			name = "BLACK_NEEDLE_BASE_HACK"
@@ -959,6 +951,34 @@ country_event = {
 			owner = root
 		}
 	}
+
+	option = {
+		name = grand_archive.8100.b
+		enable_special_project = {
+			name = "BLACK_NEEDLE_BASE_BOMBARD"
+			location = from
+			owner = root
+		}
+		enable_special_project = {
+			name = "BLACK_NEEDLE_BASE_HACK"
+			location = from
+			owner = root
+		}
+	}
+
+	option = {
+		name = grand_archive.8100.c
+		enable_special_project = {
+			name = "BLACK_NEEDLE_BASE_DEPLOY_ARMIES"
+			location = from
+			owner = root
+		}
+		enable_special_project = {
+			name = "BLACK_NEEDLE_BASE_HACK"
+			location = from
+			owner = root
+		}
+	}s
 }
 
 # Black Needle Base planet surveyed
@@ -1515,7 +1535,7 @@ country_event = {
 				remove_deposit = d_hive_dwelling
 				add_deposit = d_ruined_hive_dwelling
 				save_event_target_as = smeegibb_shelter
-				remove_planet_flag = cannot_colonize_smeegibb_shelter
+				remove_carrier_flag = cannot_colonize_smeegibb_shelter
 			}
 		}
 		create_captain_inax_leader = yes
@@ -2129,7 +2149,7 @@ country_event = {
 	picture = GFX_evt_treasure_hunt_4
 	show_sound = relic_activation_celestial_chart
 
-	location = event_target:gateway_ness_treasure
+	location = from.solar_system
 	is_triggered_only = yes
 
 	trigger = {
@@ -2137,24 +2157,11 @@ country_event = {
 			has_country_flag = decision_treasure_hunters
 			has_origin = origin_treasure_hunters
 		}
+		NOT = { has_country_flag = spawned_ness_system }
 	}
 
 	immediate = {
-		spawn_ness_treasure_system = yes
-		event_target:ness_treasure_system_for@this = {
-			random_system_megastructure = {
-				limit = { is_megastructure_type = gateway_ness_restored }
-				save_event_target_as = gateway_ness_treasure
-			}
-			save_event_target_as = ness_treasure_system
-		}
-		if = {
-			limit = { has_special_project = ACTIVATE_GATEWAY_PROJECT }
-			complete_special_project = {
-				type = "ACTIVATE_GATEWAY_PROJECT"
-				location = from
-			}
-		}
+		set_country_flag = spawned_ness_system
 	}
 
 	option = {
@@ -2175,8 +2182,22 @@ country_event = {
 	}
 
 	after = {
+		event_target:ness_treasure_system = {
+			save_global_event_target_as = ness_treasure_system_for@root
+			spawn_megastructure = {
+				type = gateway_ness_restored
+				orbit_distance = 220
+				orbit_angle = 60
+			}
+			random_system_megastructure = {
+				limit = {
+					is_megastructure_type = gateway_ness_restored
+				}
+				save_global_event_target_as = gateway_ness_treasure@root
+			}
+		}
 		from = {
-			link_to = event_target:gateway_ness_treasure
+			link_to = event_target:gateway_ness_treasure@root
 		}
 	}
 }

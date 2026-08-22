@@ -69,6 +69,7 @@ gateway_ness_restored = {
 						location = from
 					}
 				}
+				spawn_ness_treasure_system = yes
 				country_event = {
 					id = grand_archive.8400
 					scopes = { from = root.fromfrom }
@@ -88,7 +89,10 @@ gateway_ness_restored = {
 			}
 			random_playable_country = {
 				limit = {
-					has_origin = origin_treasure_hunters
+					OR = {
+						has_country_flag = decision_treasure_hunters
+						has_origin = origin_treasure_hunters
+					}
 					is_nomadic = yes
 					has_country_flag = activating_ness_gate
 				}
